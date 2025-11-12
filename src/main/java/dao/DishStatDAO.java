@@ -22,15 +22,14 @@ public class DishStatDAO extends DAO {
         
         // Fixed query to handle both order_date and order_items.created_at for date filtering
         String sql = "SELECT d.dish_id, d.dish_name, " +
-                    "COALESCE(SUM(oi.quantity), 0) as total_quantity_sold, " +
-                    "COALESCE(SUM(oi.total_price), 0) as total_revenue, " +
-                    "COUNT(DISTINCT oi.order_id) as total_orders " +
+                    "COALESCE(SUM(oi.quantity), 0) AS total_quantity_sold, " +
+                    "COALESCE(SUM(oi.total_price), 0) AS total_revenue, " +
+                    "COUNT(DISTINCT oi.order_id) AS total_orders " +
                     "FROM dishes d " +
                     "INNER JOIN order_items oi ON d.dish_id = oi.dish_id " +
                     "INNER JOIN orders o ON oi.order_id = o.order_id " +
                     "WHERE d.is_available = 1 " +
-                    "AND (DATE(o.order_date) BETWEEN ? AND ? " +
-                    "     OR DATE(oi.created_at) BETWEEN ? AND ?) " +
+                    "AND DATE(o.order_date) BETWEEN ? AND ? " +
                     "GROUP BY d.dish_id, d.dish_name " +
                     "HAVING total_quantity_sold > 0 " +
                     "ORDER BY total_revenue DESC";
@@ -38,8 +37,6 @@ public class DishStatDAO extends DAO {
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, startDate);
             ps.setString(2, endDate);
-            ps.setString(3, startDate);
-            ps.setString(4, endDate);
             
             System.out.println("Executing query with dates: " + startDate + " to " + endDate);
             ResultSet rs = ps.executeQuery();
@@ -73,18 +70,16 @@ public class DishStatDAO extends DAO {
         try {
             // Check if there are any orders in the date range (both order_date and order_items.created_at)
             String checkSql = "SELECT " +
-                             "COUNT(DISTINCT o.order_id) as order_count, " +
-                             "MIN(o.order_date) as min_order_date, MAX(o.order_date) as max_order_date, " +
-                             "MIN(oi.created_at) as min_item_date, MAX(oi.created_at) as max_item_date " +
+                             "COUNT(DISTINCT o.order_id) AS order_count, " +
+                             "MIN(o.order_date) AS min_order_date, MAX(o.order_date) AS max_order_date, " +
+                             "MIN(oi.created_at) AS min_item_date, MAX(oi.created_at) AS max_item_date " +
                              "FROM orders o " +
                              "INNER JOIN order_items oi ON o.order_id = oi.order_id " +
-                             "WHERE (DATE(o.order_date) BETWEEN ? AND ? OR DATE(oi.created_at) BETWEEN ? AND ?)";
+                             "WHERE DATE(o.order_date) BETWEEN ? AND ?";
             
             try (PreparedStatement ps = con.prepareStatement(checkSql)) {
                 ps.setString(1, startDate);
                 ps.setString(2, endDate);
-                ps.setString(3, startDate);
-                ps.setString(4, endDate);
                 ResultSet rs = ps.executeQuery();
                 
                 if (rs.next()) {

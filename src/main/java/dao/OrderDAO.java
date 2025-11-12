@@ -11,15 +11,39 @@ import java.util.List;
 
 public class OrderDAO extends DAO {
     
-    public List<Order> getOrdersByDishId(int dishId) {
+    public List<Order> getOrdersByDishId(int dishId, String startDate, String endDate) {
         List<Order> orders = new ArrayList<>();
-        String sql = "SELECT DISTINCT o.* FROM orders o " +
-                    "INNER JOIN order_items oi ON o.order_id = oi.order_id " +
-                    "WHERE oi.dish_id = ? " +
-                    "ORDER BY o.order_date DESC";
-        
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, dishId);
+        StringBuilder sql = new StringBuilder(
+                "SELECT DISTINCT o.* FROM orders o " +
+                "INNER JOIN order_items oi ON o.order_id = oi.order_id " +
+                "WHERE oi.dish_id = ?"
+        );
+
+        boolean hasStart = startDate != null && !startDate.trim().isEmpty();
+        boolean hasEnd = endDate != null && !endDate.trim().isEmpty();
+
+        if (hasStart && hasEnd) {
+            sql.append(" AND DATE(o.order_date) BETWEEN ? AND ?");
+        } else if (hasStart) {
+            sql.append(" AND DATE(o.order_date) >= ?");
+        } else if (hasEnd) {
+            sql.append(" AND DATE(o.order_date) <= ?");
+        }
+
+        sql.append(" ORDER BY o.order_date DESC");
+
+        try (PreparedStatement ps = con.prepareStatement(sql.toString())) {
+            int paramIndex = 1;
+            ps.setInt(paramIndex++, dishId);
+
+            if (hasStart && hasEnd) {
+                ps.setString(paramIndex++, startDate);
+                ps.setString(paramIndex, endDate);
+            } else if (hasStart) {
+                ps.setString(paramIndex, startDate);
+            } else if (hasEnd) {
+                ps.setString(paramIndex, endDate);
+            }
             ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {
