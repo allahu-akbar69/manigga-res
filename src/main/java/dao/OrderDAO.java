@@ -11,7 +11,7 @@ import java.util.List;
 
 public class OrderDAO extends DAO {
     
-    public List<Order> getOrdersByDishId(int dishId, String startDate, String endDate) {
+    public List<Order> getListOrderByDish(int dishId, String startDate, String endDate) {
         List<Order> orders = new ArrayList<>();
         StringBuilder sql = new StringBuilder(
                 "SELECT DISTINCT o.* FROM orders o " +

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class DishStatDAO extends DAO {
     
-    public List<DishStat> getDishStatistics(String startDate, String endDate) {
+    public List<DishStat> getDishStat(String startDate, String endDate) {
         List<DishStat> dishStats = new ArrayList<>();
         
         // Validate date parameters

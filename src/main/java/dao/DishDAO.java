@@ -10,7 +10,7 @@ import java.util.List;
 
 public class DishDAO extends DAO {
     
-    public List<Dish> searchDishesByName(String dishName) {
+    public List<Dish> getListDishByName(String dishName) {
         List<Dish> dishes = new ArrayList<>();
         String sql = "SELECT * FROM dishes WHERE dish_name LIKE ? AND is_available = 1";
         
@@ -36,7 +36,7 @@ public class DishDAO extends DAO {
         return dishes;
     }
     
-    public Dish getDishById(int dishId) {
+    public Dish getDishInfo(int dishId) {
         Dish dish = null;
         String sql = "SELECT * FROM dishes WHERE dish_id = ?";
         

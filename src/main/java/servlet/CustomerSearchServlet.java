@@ -24,7 +24,7 @@ public class CustomerSearchServlet extends BaseServlet {
             DishDAO dishDAO = new DishDAO();
             
             if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-                dishes = dishDAO.searchDishesByName(searchTerm);
+                dishes = dishDAO.getListDishByName(searchTerm);
             } else {
                 dishes = dishDAO.getAllDishes();
             }

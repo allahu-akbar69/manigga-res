@@ -60,7 +60,7 @@ public class ManagementStatsServlet extends BaseServlet {
             try {
                 System.out.println("Processing statistics request: " + startDate + " to " + endDate);
                 DishStatDAO dishStatDAO = new DishStatDAO();
-                dishStats = dishStatDAO.getDishStatistics(startDate, endDate);
+                dishStats = dishStatDAO.getDishStat(startDate, endDate);
                 
                 System.out.println("Retrieved " + (dishStats != null ? dishStats.size() : 0) + " dish statistics");
                 

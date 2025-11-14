@@ -23,7 +23,7 @@ public class DishDetailServlet extends BaseServlet {
             try {
                 int dishId = Integer.parseInt(dishIdStr);
                 DishDAO dishDAO = new DishDAO();
-                dish = dishDAO.getDishById(dishId);
+                dish = dishDAO.getDishInfo(dishId);
                 
                 if (dish == null) {
                     request.setAttribute("error", "Dish not found with ID: " + dishId);

@@ -29,11 +29,11 @@ public class OrderListServlet extends BaseServlet {
             try {
                 int dishId = Integer.parseInt(dishIdStr);
                 OrderDAO orderDAO = new OrderDAO();
-                orders = orderDAO.getOrdersByDishId(dishId, startDate, endDate);
+                orders = orderDAO.getListOrderByDish(dishId, startDate, endDate);
                 
                 // Get dish name
                 DishDAO dishDAO = new DishDAO();
-                Dish dish = dishDAO.getDishById(dishId);
+                Dish dish = dishDAO.getDishInfo(dishId);
                 if (dish != null) {
                     dishName = dish.getDishName();
                 } else {
