@@ -120,15 +120,19 @@
             font-weight: bold;
         }
         .order-total {
-            background-color: #2c3e50;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: right;
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 20px;
-        }
+        background-color: #2c3e50;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 8px;
+        text-align: right;
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 20px;
+        width: fit-content;               /* Tự động điều chỉnh theo text */
+        margin-left: auto;                 /* Đẩy sang phải */
+        margin-right: 0;
+        display: block;                    /* Block element để margin-left: auto hoạt động */
+    }
         .back-btn {
             background-color: #95a5a6;
             color: white;
