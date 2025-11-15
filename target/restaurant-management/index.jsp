@@ -108,17 +108,7 @@
             </div>
         </div>
         
-        <div class="features">
-            <h3>System Features</h3>
-            <ul>
-                <li>Customer dish search and information viewing</li>
-                <li>Management staff statistics and reporting</li>
-                <li>Order management and tracking</li>
-                <li>Table reservation system</li>
-                <li>Revenue and performance analytics</li>
-                <li>Multi-role access control</li>
-            </ul>
-        </div>
+
     </div>
 </body>
 </html>
